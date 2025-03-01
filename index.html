@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #F8E8EE; /* Soft pastel pink */
+            text-align: center;
+            scroll-behavior: smooth;
+        }
+
+        /* Landing Section */
+        .landing {
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(to right, #FFD1DC, #AEE1FF); /* Pastel Pink to Soft Blue */
+            color: #5D3E5D; /* Deep pastel purple */
+        }
+
+        .app-name {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+        }
+
+        /* Transitioning Icons */
+        .icons-container {
+            position: absolute;
+            bottom: 70px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+            opacity: 0;
+            animation: riseUp 3s infinite alternate ease-in-out;
+        }
+
+        @keyframes riseUp {
+            0% { transform: translateY(40px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Problem & Solution Section */
+        .info-section {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 50px auto;
+            max-width: 80%;
+        }
+
+        .info-box {
+            background: #FFDFD3; /* Pastel Peach */
+            padding: 20px;
+            width: 300px;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            color: #4E4E4E; /* Deep pastel gray */
+        }
+
+        /* Features Section */
+        .features-section {
+            margin: 50px 0;
+        }
+
+        .features-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature-box {
+            background: #D4A5A5; /* Pastel Mauve */
+            color: #FFFFFF; /* White for contrast */
+            width: 150px;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .feature-box:hover {
+            transform: scale(1.1);
+        }
+
+        /* Charts Section */
+        .charts-section {
+            margin: 50px 0;
+        }
+
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .chart-box {
+            width: 200px;
+            height: 150px;
+            background: #AEE1FF; /* Pastel Blue */
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4E4E4E; /* Dark pastel gray */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Landing Section -->
+    <div class="landing">
+        <h1 class="app-name">Sentiment Analysis Project</h1>
+        <img src="logo.png" alt="App Logo" class="logo">
+        <div class="icons-container">
+            <img src="happy.png" class="icon" style="animation-delay: 0s;">
+            <img src="neutral.png" class="icon" style="animation-delay: 0.5s;">
+            <img src="cry.png" class="icon" style="animation-delay: 1s;">
+            <img src="angry.png" class="icon" style="animation-delay: 1.5s;">
+            <img src="happy-face.png" class="icon" style="animation-delay: 2s;">
+        </div>
+    </div>
+
+    <!-- Problem & Solution Section -->
+    <div class="info-section">
+        <div class="info-box">
+            <h3>Problem Statement</h3>
+            <p>Analyzing sentiments in large-scale data manually is time-consuming and ineffective.</p>
+        </div>
+        <div class="info-box">
+            <h3>Solution</h3>
+            <p>Our AI-powered sentiment tracker automates sentiment classification with visual insights.</p>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-section">
+        <h2>App Features</h2>
+        <div class="features-container">
+            <div class="feature-box">🔍 Keyword Tracking</div>
+            <div class="feature-box">📊 Sentiment Analysis</div>
+            <div class="feature-box">📈 Competitor Monitoring</div>
+            <div class="feature-box">⚡ Real-time Insights</div>
+            <div class="feature-box">📌 Hashtag Tracking</div>
+        </div>
+    </div>
+
+     <!-- Charts Section -->
+    <div class="charts-section">
+        <h2>Sentiment Visualizations</h2>
+        <div class="chart-container">
+            <div class="chart-box">
+                <canvas id="sentimentChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <canvas id="trendChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <canvas id="distributionChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sentiment Analysis Bar Chart
+        var ctx1 = document.getElementById('sentimentChart').getContext('2d');
+        var sentimentChart = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['Positive', 'Neutral', 'Negative'],
+                datasets: [{
+                    label: 'Sentiment Analysis',
+                    data: [45, 30, 25], // Sample data
+                    backgroundColor: ['#A8DADC', '#F4A261', '#E76F51'],
+                    borderColor: ['#457B9D', '#E9C46A', '#D62828'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
+        // Sentiment Trend Line Chart
+        var ctx2 = document.getElementById('trendChart').getContext('2d');
+        var trendChart = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                datasets: [{
+                    label: 'Sentiment Trend',
+                    data: [30, 50, 40, 60, 45], // Sample trend data
+                    borderColor: '#457B9D',
+                    backgroundColor: 'rgba(69, 123, 157, 0.2)',
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Sentiment Distribution Pie Chart
+        var ctx3 = document.getElementById('distributionChart').getContext('2d');
+        var distributionChart = new Chart(ctx3, {
+            type: 'pie',
+            data: {
+                labels: ['Positive', 'Neutral', 'Negative'],
+                datasets: [{
+                    data: [40, 35, 25], // Sample distribution data
+                    backgroundColor: ['#A8DADC', '#F4A261', '#E76F51']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    </script>
+
+</body>
+</html>
